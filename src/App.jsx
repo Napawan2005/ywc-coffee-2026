@@ -8,6 +8,7 @@ import ResultPage from "./pages/ResultPage"
 
 function App() {
   const [view,setView] = useState("home")
+  const [file, setFile] = useState(null)
   console.log("view =", view)  
   return (
     <>

@@ -30,14 +30,14 @@ export default function HomePage({ onNavigate, file, onFileChange }) {
     onNavigate("result");
   };
 
-  const pick = (f) =>{
+  const pick = (f) => {
     if (!f) return;
     if (!f.type.startsWith("image/")) {
       alert("รองรับเฉพาะไฟล์รูปภาพ");
-    return;
-}
-onFileChange(f);
-  }
+      return;
+    }
+    onFileChange(f);
+  };
 
   return (
     <>
@@ -88,6 +88,7 @@ onFileChange(f);
           </p>
           {file && (
             <>
+              <img src={preview} width={200} />
               <p
                 className={
                   tooBig ? "text-sm text-red-600" : "text-sm text-stone-600"
