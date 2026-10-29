@@ -43,7 +43,7 @@ export default function HomePage({ onNavigate, file, onFileChange, loading, onAn
     <>
       <main className="wrap hero">
         <div>
-          <h1>
+          <h1 className="text-accent bg-latte">
             ถ่ายรูปสารกาแฟ
             <br />
             <span>รู้เกรดและราคา</span>

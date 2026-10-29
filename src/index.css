@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+
+@theme {
+  --color-bg: #F7F2EB;
+  --color-surface: #FFFCF8;
+  --color-soft: #F3E9DC;
+  --color-line: #E6D8C6;
+  --color-ink: #2A1C14;
+  --color-muted: #6B5446;
+  --color-accent: #7A4A24;
+  --color-latte: #E9C9A1;
+  --color-dark: #2A1C14;
+  --color-good: #2F6B8A;
+  --color-good-bg: #EAF2F6;
+  --color-bad: #8E3B1C;
+  --color-bad-bg: #F6DED2;
+
+  --font-head: "Prompt", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans Thai", system-ui, sans-serif;
+
+}
+
+body {
+  @apply bg-bg text-ink font-body;
+}
+h1, h2, h3 {
+  @apply font-head;
+}
+
