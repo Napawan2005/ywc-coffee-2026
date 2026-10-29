@@ -3,7 +3,7 @@ import { beans } from "../data";
 import Tip from "../components/Tip";
 import { useEffect, useRef, useState } from "react";
 
-export default function HomePage({ onNavigate, file, onFileChange }) {
+export default function HomePage({ onNavigate, file, onFileChange, loading, onAnalyze }) {
   const [preview, setPreview] = useState(null);
   const inputRef = useRef(null);
   const [dragging, setDragging] = useState(false);
@@ -27,7 +27,7 @@ export default function HomePage({ onNavigate, file, onFileChange }) {
 
   const handleUpload = () => {
     if (!file) return;
-    onNavigate("result");
+    onAnalyze();
   };
 
   const pick = (f) => {
@@ -106,10 +106,10 @@ export default function HomePage({ onNavigate, file, onFileChange }) {
               </button>
               <button
                 onClick={handleUpload}
-                disabled={tooBig}
+                disabled={tooBig || loading}
                 className="bg-amber-800 text-white rounded-xl px-5 py-3 font-semibold disabled:opacity-40"
               >
-                เริ่มประเมินราคา
+                {loading ? "กำลังวิเคราะห์…" : "เริ่มประเมินราคา"}
               </button>
             </>
           )}
