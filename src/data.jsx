@@ -7,3 +7,9 @@ export const beans = [
   { id: 6 , name: "เมล็ดกะลา", desc: "เมล็ดที่ยังมีกะลาหุ้มอยู่" , good: false},
   { id: 7 , name: "เศษกะลา / เปลือกเชอร์รี่" , desc: "สิ่งเจือปนที่ไม่ใช่เมล็ด" , good:false}
 ]
+
+
+export const sampleResult = {
+  counts: { 1: 86, 2: 3, 3: 2, 4: 4, 5: 3, 6: 1, 7: 1 },
+  marketPrice: 200,
+}
