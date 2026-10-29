@@ -1,7 +1,9 @@
+import Button from "../components/Button"
+
 export default function ErrorPage({ onNavigate }) {
   return (
     <main className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-4">
-    <button onClick={() => onNavigate("home")}>กลับหน้าหลัก</button>
+    <Button variant="outline" onClick={() => onNavigate("home")}>กลับหน้าหลัก</Button>
       <span className="bg-red-100 text-red-800 rounded-full px-3 py-1 self-start">
         ⚠ รูปไม่ผ่านการตรวจ
       </span>

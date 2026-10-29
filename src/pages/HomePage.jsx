@@ -2,6 +2,7 @@ import BeanCard from "../components/BeanCard";
 import { beans } from "../data";
 import Tip from "../components/Tip";
 import { useEffect, useRef, useState } from "react";
+import Button from "../components/Button";
 
 export default function HomePage({ onNavigate, file, onFileChange, loading, onAnalyze }) {
   const [preview, setPreview] = useState(null);
@@ -98,37 +99,29 @@ export default function HomePage({ onNavigate, file, onFileChange, loading, onAn
                 {tooBig && `(เกิน ${MAX_MB} MB)`}
               </p>
 
-              <button
-                onClick={clearFile}
-                className="text-stone-500 hover:text-red-600 px-3"
-              >
-                ✕
-              </button>
-              <button
-                onClick={handleUpload}
-                disabled={tooBig || loading}
-                className="bg-amber-800 text-white rounded-xl px-5 py-3 font-semibold disabled:opacity-40"
-              >
+              <button onClick={clearFile} className="text-stone-500 hover:text-red-600 px-3">✕</button>
+
+              <Button onClick={handleUpload} disabled={tooBig || loading}>
                 {loading ? "กำลังวิเคราะห์…" : "เริ่มประเมินราคา"}
-              </button>
+              </Button>
             </>
           )}
         </div>
       </main>
       <div className="flex gap-3 mt-6">
-        <button
-          className="bg-amber-800 text-white rounded-xl p-6 font-semibold"
+        <Button
+          variant="outline"
           onClick={() => onNavigate("result")}
         >
           ตัวอย่างผลประเมิน
-        </button>
+        </Button>
 
-        <button
-          className="border border-amber-800 text-amber-800 rounded-xl px-5 py-3 font-semibold"
+        <Button
+          variant="outline"
           onClick={() => onNavigate("error")}
         >
           ตัวอย่าง: รูปไม่ผ่าน
-        </button>
+        </Button>
       </div>
       <section className="max-w-6xl mx-auto px-6 py-12">
         <h2 className="text-2xl font-semibold mb-6">จำแนกเมล็ดได้ 7 แบบ</h2>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { beans, sampleResult } from "../data";
+import Button from "../components/Button"
 
 export default function ResultPage({ onNavigate, file }) {
   const [preview, setPreview] = useState(null);
@@ -43,7 +44,7 @@ export default function ResultPage({ onNavigate, file }) {
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-4">
-      <button onClick={() => onNavigate("home")}>กลับหน้าหลัก</button>
+      <Button variant="outline" onClick={() => onNavigate("home")}>กลับหน้าหลัก</Button>
       {file ? (
         <>
           {preview && <img src={preview} width={200} />}
