@@ -3,17 +3,17 @@ import { beans } from "../data";
 import Tip from "../components/Tip";
 import { useEffect, useRef, useState } from "react";
 
-export default function HomePage({ onNavigate }) {
-  const [file, setFile] = useState(null);
+export default function HomePage({ onNavigate, file, onFileChange }) {
   const [preview, setPreview] = useState(null);
   const inputRef = useRef(null);
+  const [dragging, setDragging] = useState(false);
 
   const MAX_MB = 10;
   const sizeMB = file ? file.size / 1024 / 1024 : 0;
   const tooBig = sizeMB >= MAX_MB;
 
   const clearFile = () => {
-    setFile(null);
+    onFileChange(null);
     setPreview(null);
     inputRef.current.value = "";
   };
@@ -29,6 +29,15 @@ export default function HomePage({ onNavigate }) {
     if (!file) return;
     onNavigate("result");
   };
+
+  const pick = (f) =>{
+    if (!f) return;
+    if (!f.type.startsWith("image/")) {
+      alert("รองรับเฉพาะไฟล์รูปภาพ");
+    return;
+}
+onFileChange(f);
+  }
 
   return (
     <>
@@ -51,8 +60,29 @@ export default function HomePage({ onNavigate }) {
             ref={inputRef}
             type="file"
             accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
+            hidden
+            onChange={(e) => pick(e.target.files[0])}
           />
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragging(false);
+              pick(e.dataTransfer.files[0]);
+            }}
+            onClick={() => inputRef.current.click()}
+            className={
+              dragging
+                ? "border-2 border-amber-600 bg-amber-50 rounded-xl p-8 text-center cursor-pointer"
+                : "border-2 border-dashed border-stone-300 rounded-xl p-8 text-center cursor-pointer"
+            }
+          >
+            ลากรูปมาวาง หรือคลิกเพื่อเลือก
+          </div>
           <p className="text-sm text-stone-500">
             รองรับ JPG, PNG, WEBP · ไม่เกิน {MAX_MB} MB
           </p>
@@ -67,7 +97,6 @@ export default function HomePage({ onNavigate }) {
                 {tooBig && `(เกิน ${MAX_MB} MB)`}
               </p>
 
-              {preview && <img src={preview} width={200} />}
               <button
                 onClick={clearFile}
                 className="text-stone-500 hover:text-red-600 px-3"

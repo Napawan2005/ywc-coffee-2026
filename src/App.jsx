@@ -12,8 +12,8 @@ function App() {
   return (
     <>
       <Header />
-      {view === "home" && <HomePage onNavigate={setView} />}
-      {view === "result" && <ResultPage onNavigate={setView} />}
+      {view === "home" && <HomePage onNavigate={setView} file={file} onFileChange={setFile} />}
+      {view === "result" && <ResultPage onNavigate={setView} file={file} />}
       {view === "error" && <ErrorPage onNavigate={setView} />}
       <Footer />
     </>
