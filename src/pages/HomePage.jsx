@@ -3,7 +3,6 @@ import { beans } from "../data";
 import Tip from "../components/Tip";
 import { useEffect, useRef, useState } from "react";
 
-
 export default function HomePage({ onNavigate }) {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -12,7 +11,6 @@ export default function HomePage({ onNavigate }) {
   const MAX_MB = 10;
   const sizeMB = file ? file.size / 1024 / 1024 : 0;
   const tooBig = sizeMB >= MAX_MB;
-
 
   const clearFile = () => {
     setFile(null);
@@ -27,11 +25,9 @@ export default function HomePage({ onNavigate }) {
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  const handleUpload = async () => {
+  const handleUpload = () => {
     if (!file) return;
-    const fd = new FormData();
-    fd.append("image", file);
-    await fetch("/api/upload", { method: "POST", body: fd });
+    onNavigate("result");
   };
 
   return (
@@ -57,6 +53,9 @@ export default function HomePage({ onNavigate }) {
             accept="image/*"
             onChange={(e) => setFile(e.target.files[0])}
           />
+          <p className="text-sm text-stone-500">
+            รองรับ JPG, PNG, WEBP · ไม่เกิน {MAX_MB} MB
+          </p>
           {file && (
             <>
               <p
@@ -69,9 +68,18 @@ export default function HomePage({ onNavigate }) {
               </p>
 
               {preview && <img src={preview} width={200} />}
-              <button onClick={clearFile}>✕</button>
-              <button onClick={handleUpload} disabled={tooBig}>
-                อัปโหลด
+              <button
+                onClick={clearFile}
+                className="text-stone-500 hover:text-red-600 px-3"
+              >
+                ✕
+              </button>
+              <button
+                onClick={handleUpload}
+                disabled={tooBig}
+                className="bg-amber-800 text-white rounded-xl px-5 py-3 font-semibold disabled:opacity-40"
+              >
+                เริ่มประเมินราคา
               </button>
             </>
           )}
