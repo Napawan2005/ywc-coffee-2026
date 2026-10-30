@@ -8,7 +8,7 @@ import BeanClassBar from "../components/result/BeanClassBar";
 import Section from "../components/layout/Section";
 import SectionHead from "../components/layout/SectionHead";
 
-export default function ResultPage({ onNavigate, file, result }) {
+export default function ResultPage({ onNavigate, file, result, onRetry }) {
   const [preview, setPreview] = useState(null);
 
   const data = result ?? sampleResult;
@@ -54,7 +54,7 @@ export default function ResultPage({ onNavigate, file, result }) {
             </h1>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Button onClick={() => onNavigate("home")}>ประเมินรูปใหม่ →</Button>
+            <Button onClick={onRetry}>ประเมินรูปใหม่ →</Button>
             <Button variant="outline" onClick={() => onNavigate("home")}>
               กลับหน้าหลัก
             </Button>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import Button from "../components/ui/Button"
 import BeanPile from "../components/icons/BeanPile"
 
@@ -7,8 +8,16 @@ const checks = [
   { label: "เป็นสารกาแฟ", detail: "ระบบพบเมล็ดสารกาแฟในรูป", pass: true },
 ]
 
-export default function ErrorPage({ onNavigate, reason }) {
+export default function ErrorPage({ onNavigate, reason, file, onRetry }) {
+  const [preview, setPreview] = useState(null)
   const problems = checks.filter((c) => !c.pass).length
+
+  useEffect(() => {
+    if (!file) return
+    const url = URL.createObjectURL(file)
+    setPreview(url)
+    return () => URL.revokeObjectURL(url)
+  }, [file])
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-14 flex flex-col gap-8">
@@ -26,12 +35,16 @@ export default function ErrorPage({ onNavigate, reason }) {
 
       <div className="grid gap-6 md:grid-cols-2 md:items-start">
         <div className="rounded-3xl border border-line bg-surface p-5">
-          <div className="relative grid h-80 place-items-center rounded-2xl bg-floor-dim">
-            <div className="scale-[2.5]">
-              <BeanPile fill="#5B6142" />
-            </div>
+          <div className="relative grid h-80 place-items-center overflow-hidden rounded-2xl bg-floor-dim">
+            {preview ? (
+              <img src={preview} alt="รูปที่อัปโหลด" className="h-full w-full object-cover" />
+            ) : (
+              <div className="scale-[2.5]">
+                <BeanPile fill="#5B6142" />
+              </div>
+            )}
             <span className="absolute bottom-3 left-3 rounded-full bg-dark/85 px-3 py-1 text-xs text-bg">
-              ภาพประกอบ · รูปที่อัปโหลด
+              {preview ? "รูปของคุณ" : "ภาพประกอบ · รูปที่อัปโหลด"}
             </span>
           </div>
         </div>
@@ -69,10 +82,7 @@ export default function ErrorPage({ onNavigate, reason }) {
               <Button
                 variant="latte"
                 className="flex-1"
-                onClick={() => {
-                  onNavigate("home");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+                onClick={onRetry}
               >
                 อัปโหลดรูปใหม่ →
               </Button>

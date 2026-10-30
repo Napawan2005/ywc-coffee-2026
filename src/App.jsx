@@ -28,6 +28,12 @@ function App() {
     }
   }
 
+  function retry() {
+    setFile(null)
+    setView("home")
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
     <>
       <Header onNavigate={setView} />
@@ -40,8 +46,8 @@ function App() {
           onAnalyze={analyze}
         />
       )}
-      {view === "result" && <ResultPage onNavigate={setView} file={file} result={result}/>}
-      {view === "error" && <ErrorPage onNavigate={setView} reason={errorReason} />}
+      {view === "result" && <ResultPage onNavigate={setView} file={file} result={result} onRetry={retry} />}
+      {view === "error" && <ErrorPage onNavigate={setView} reason={errorReason} file={file} onRetry={retry} />}
       <Footer />
     </>
   )
