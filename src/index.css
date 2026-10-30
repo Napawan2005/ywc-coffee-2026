@@ -27,6 +27,10 @@
   --color-floor-pattern: #8A6A4F;
   --color-floor-dim: #6E6A63;
 
+  --color-track: #EFE4D6;  /* รางแถบ */
+  --color-bar: #B8743A;    /* แถบเมล็ดเสีย */
+
+
   --font-head: "Prompt", system-ui, sans-serif;
   --font-body: "IBM Plex Sans Thai", system-ui, sans-serif;
 
