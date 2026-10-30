@@ -55,21 +55,35 @@ export default function HomePage({
           title="ถ่ายแบบนี้ ผ่านการตรวจแน่นอน"
         />
         <div className="grid md:grid-cols-4 gap-4">
-          <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย">
+          <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย"  badBg="bg-floor-pattern">
             กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
           </Tip>
 
-          <Tip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน">
+          <Tip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน" stacked>
             ประมาณ 100 เมล็ดต่อรูป เห็นทุกเมล็ดชัด
           </Tip>
 
-          <Tip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา">
+          <Tip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา" badBg="bg-floor-dim" badFill="#5B6142">
             ใช้แสงธรรมชาติ ไม่ใช้แฟลช
           </Tip>
 
-          <Tip title="วางไม้บรรทัดเทียบขนาด" bad="✗ ไม่มี (ไม่บังคับ)">
-            ให้ระบบวัดขนาดเมล็ดได้ด้วย
-          </Tip>
+          <div className="bg-dark2 rounded-2xl p-5 flex flex-col gap-3">
+            <div className="grid h-24 place-items-center rounded-lg bg-white">
+              <svg width="150" height="60" viewBox="0 0 150 60" aria-hidden="true">
+                <rect x="8" y="38" width="134" height="16" rx="2" fill="#F1E3CC" stroke="#C9A882" />
+                <path
+                  d="M18 38v8M32 38v5M46 38v8M60 38v5M74 38v8M88 38v5M102 38v8M116 38v5M130 38v8"
+                  stroke="#7A4A24"
+                  strokeWidth="1.4"
+                />
+                <ellipse cx="50" cy="18" rx="7" ry="10" fill="#A4B077" />
+                <ellipse cx="84" cy="18" rx="7" ry="10" fill="#A4B077" />
+              </svg>
+            </div>
+            <span className="text-sm font-semibold text-latte">ตัวเลือกเสริม</span>
+            <h3 className="text-lg font-semibold">วางไม้บรรทัดเทียบขนาด</h3>
+            <p className="text-sm text-dark-muted">ให้ระบบวัดขนาดเมล็ดได้ด้วย</p>
+          </div>
         </div>
       </Section>
     </>
