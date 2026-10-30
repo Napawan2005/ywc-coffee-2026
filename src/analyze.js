@@ -1,4 +1,4 @@
-import { sampleResult } from "./data";
+import { sampleResult } from "./data.js";
 
 export function fakeAnalyze(file) {
   return new Promise((resolve, reject) => {

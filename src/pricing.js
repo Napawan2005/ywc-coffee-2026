@@ -23,7 +23,7 @@ export function goodRatioRange(counts) {
   const denom = 1 + z2 / n;
   const center = (p + z2 / (2 * n)) / denom;
   const half = (Z_95 * Math.sqrt((p * (1 - p)) / n + z2 / (4 * n * n))) / denom;
-  return { low: Math.max(0, center - half), high: Math.min(1, center + half) };
+  return { low: Math.min(p, Math.max(0, center - half)), high: Math.max(p, Math.min(1, center + half)) }; 
 }
 
 export function priceRange(counts, marketPrice) {

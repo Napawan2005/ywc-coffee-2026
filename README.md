@@ -6,12 +6,35 @@
 
 ## เริ่มต้นใช้งาน
 
+ต้องใช้ **Node.js 22** (Vite 8 ต้องการ Node 20.19+ หรือ 22.12+) ถ้าใช้ nvm ให้รัน `nvm use` ซึ่งจะอ่านเวอร์ชันจาก `.nvmrc`
+
 ```bash
 npm install
 npm run dev      # เปิดเซิร์ฟเวอร์พัฒนา
 npm run build    # build สำหรับ production ไปที่ dist/
 npm run lint     # ตรวจโค้ดด้วย oxlint
+npm test         # รัน unit test
 ```
+
+## การรัน unit test
+
+ใช้ `node:test` ที่มาพร้อม Node.js ไม่ต้องติดตั้งเพิ่ม
+
+```bash
+npm test                                   # รันทุกไฟล์ *.test.js
+```
+
+ผลที่ควรได้เมื่อผ่านทั้งหมดคือ `ℹ fail 0` ถ้ามีเทสต์ไม่ผ่าน ผลจะแสดงชื่อเทสต์และค่าที่คาดหวังกับค่าที่ได้จริง
+
+### เขียนเทสต์ใหม่
+
+วางไฟล์ `*.test.js` ไว้ข้างโค้ดที่จะเทสต์ ใช้ `test` จาก `node:test` และ `assert` จาก `node:assert/strict` ดูตัวอย่างได้ที่ `src/pricing.test.js` ไฟล์ที่ import ต้องใส่นามสกุล `.js` เพราะ Node ไม่เติมให้เหมือน Vite
+
+ไฟล์เทสต์ไม่ถูก bundle ลง `dist/` เพราะ Vite จะรวมเฉพาะไฟล์ที่ `index.html` อ้างถึงเท่านั้น
+
+### เทสต์ที่มีอยู่
+
+- `src/pricing.test.js` ครอบคลุม `countTotal`, `goodRatio`, `calcPrice`, `goodRatioRange` และ `priceRange`
 
 ## เทคโนโลยี
 
@@ -75,7 +98,7 @@ coffee/
 - **`App.jsx`** เก็บ state หลัก (`view`, `file`, `result`, `errorReason`, `loading`) ฟังก์ชัน `analyze()` เรียก `fakeAnalyze` แล้วเลือกหน้าที่จะแสดง: `home`, `result` หรือ `error`
 - **`index.css`** ประกาศสีและฟอนต์ของแบรนด์ด้วย `@theme` ของ Tailwind ชื่อสี เช่น `bg-accent` หรือ `text-muted` มาจากตรงนี้
 - **`data.js`** รายการประเภทเมล็ด 7 แบบ (`beans`) และผลตัวอย่าง (`sampleResult`) ที่มี `counts` และ `marketPrice`
-- **`analyze.js`** `fakeAnalyze(file)` รอ 1.5 วินาที ถ้าชื่อไฟล์มี `dark` จะ reject ด้วย `{ reason }` ไม่เช่นนั้นคืน `sampleResult`
+- **`analyze.js`** `fakeAnalyze(file)` รอ 100 มิลลิวินาที ถ้าชื่อไฟล์มี `dark` จะ reject ด้วย `{ reason }` ไม่เช่นนั้นคืน `sampleResult`
 - **`pricing.js`** `calcPrice` คำนวณราคาจากสัดส่วนเมล็ดดี `goodRatioRange` คำนวณช่วงความเชื่อมั่น 95% ของสัดส่วนนั้นด้วยสูตร Wilson และ `priceRange` แปลงเป็นช่วงราคา
 
 ### `pages/` (หนึ่งหน้า หนึ่งไฟล์)
@@ -130,6 +153,26 @@ coffee/
 2. `App.analyze()` เรียก `fakeAnalyze` ใน `analyze.js`
 3. ถ้าสำเร็จ จะไปที่ `ResultPage` ที่คำนวณเกรด ราคา และสัดส่วนจาก `counts`
 4. ถ้าไม่สำเร็จ จะไปที่ `ErrorPage` พร้อมเหตุผล
+
+## State และ hooks
+
+state หลักอยู่ที่ `App.jsx` เพราะหลายหน้าใช้ร่วมกัน แล้วส่งลงไปเป็น props ส่วนหน้าลูกแจ้งกลับผ่านฟังก์ชัน เช่น `onFileChange`, `onAnalyze`, `onRetry`
+
+| state | เก็บอะไร | ใช้ที่ |
+|---|---|---|
+| `view` | หน้าที่แสดงอยู่ (`home` / `result` / `error`) | App |
+| `file` | รูปที่ผู้ใช้เลือก | Uploader, ResultPage, ErrorPage |
+| `loading` | กำลังวิเคราะห์อยู่หรือไม่ | Uploader |
+| `result` | ผลวิเคราะห์ (`counts`, `marketPrice`) | ResultPage |
+| `errorReason` | เหตุผลที่รูปไม่ผ่าน | ErrorPage |
+
+hook อื่น
+
+- **`useState` เฉพาะที่**: `Uploader` เก็บ `dragging` (กำลังลากไฟล์ผ่านกล่อง)
+- **`useEffect`**: `Uploader`, `ResultPage` และ `ErrorPage` สร้าง object URL จาก `file` เพื่อแสดงรูป และ revoke ทิ้งเมื่อไฟล์เปลี่ยนหรือออกจากหน้า
+- **`useRef`**: `Uploader` อ้างถึง `<input type="file">` ที่ซ่อนไว้ เพื่อเปิดหน้าต่างเลือกไฟล์ และล้างค่าหลังกด ✕
+
+component อื่นไม่มี state รับ props มาแสดงอย่างเดียว
 
 ## หมายเหตุ
 
