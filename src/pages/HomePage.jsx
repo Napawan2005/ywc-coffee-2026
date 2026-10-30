@@ -3,6 +3,8 @@ import { beans } from "../data";
 import Tip from "../components/Tip";
 import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
+import Section from "../components/Section";
+import SectionHead from "../components/SectionHead";
 
 export default function HomePage({ onNavigate, file, onFileChange, loading, onAnalyze }) {
   const [preview, setPreview] = useState(null);
@@ -123,38 +125,38 @@ export default function HomePage({ onNavigate, file, onFileChange, loading, onAn
           ตัวอย่าง: รูปไม่ผ่าน
         </Button>
       </div>
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        <h2 className="text-2xl font-semibold mb-6">จำแนกเมล็ดได้ 7 แบบ</h2>
+      <Section tone="surface" id="classes">
+        <SectionHead
+          eyebrow="ระบบตรวจอะไรบ้าง"
+          title="จำแนกเมล็ดได้ 7 แบบ"
+          desc="เมล็ดคุณภาพดี 1 แบบ และข้อบกพร่อง 6 แบบ ใช้คำนวณเปอร์เซ็นต์เมล็ดเสียและเกรด"
+        />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {beans.map((b) => (
             <BeanCard key={b.id} name={b.name} desc={b.desc} good={b.good} />
           ))}
         </div>
-      </section>
-      <section className="bg-stone-900 text-stone-100">
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <h2 className="text-2xl font-semibold mb-6">
-            ถ่ายแบบนี้ ผ่านการตรวจแน่นอน
-          </h2>
-          <div className="grid md:grid-cols-4 gap-4">
-            <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย">
-              กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
-            </Tip>
+      </Section>
+      <Section tone="dark" id="guide">
+        <SectionHead dark eyebrow="ก่อนถ่ายรูป" title="ถ่ายแบบนี้ ผ่านการตรวจแน่นอน" />
+        <div className="grid md:grid-cols-4 gap-4">
+          <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย">
+            กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
+          </Tip>
 
-            <Tip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน">
-              ประมาณ 100 เมล็ดต่อรูป เห็นทุกเมล็ดชัด
-            </Tip>
+          <Tip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน">
+            ประมาณ 100 เมล็ดต่อรูป เห็นทุกเมล็ดชัด
+          </Tip>
 
-            <Tip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา">
-              ใช้แสงธรรมชาติ ไม่ใช้แฟลช
-            </Tip>
+          <Tip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา">
+            ใช้แสงธรรมชาติ ไม่ใช้แฟลช
+          </Tip>
 
-            <Tip title="วางไม้บรรทัดเทียบขนาด" bad="✗ ไม่มี (ไม่บังคับ)">
-              ให้ระบบวัดขนาดเมล็ดได้ด้วย
-            </Tip>
-          </div>
+          <Tip title="วางไม้บรรทัดเทียบขนาด" bad="✗ ไม่มี (ไม่บังคับ)">
+            ให้ระบบวัดขนาดเมล็ดได้ด้วย
+          </Tip>
         </div>
-      </section>
+      </Section>
     </>
   );
 }
