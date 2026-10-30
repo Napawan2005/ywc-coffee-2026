@@ -2,7 +2,7 @@
 
 หน้าเว็บที่ให้ผู้ใช้อัปโหลดรูปสารกาแฟ แล้วระบบแสดงเกรด สัดส่วนเมล็ดดี/เสีย และราคาประเมินเบื้องต้นจากราคาตลาด
 
-ตอนนี้ระบบประเมินยังเป็นข้อมูลจำลอง (`src/analyze.js`) ไม่มีการวิเคราะห์รูปจริง
+ตอนนี้ระบบประเมินยังเป็นข้อมูลจำลอง (`src/services/analyze.js`) ไม่มีการวิเคราะห์รูปจริง
 
 ## เริ่มต้นใช้งาน
 
@@ -28,13 +28,14 @@ npm test                                   # รันทุกไฟล์ *.te
 
 ### เขียนเทสต์ใหม่
 
-วางไฟล์ `*.test.js` ไว้ข้างโค้ดที่จะเทสต์ ใช้ `test` จาก `node:test` และ `assert` จาก `node:assert/strict` ดูตัวอย่างได้ที่ `src/pricing.test.js` ไฟล์ที่ import ต้องใส่นามสกุล `.js` เพราะ Node ไม่เติมให้เหมือน Vite
+วางไฟล์ `*.test.js` ไว้ข้างโค้ดที่จะเทสต์ ใช้ `test` จาก `node:test` และ `assert` จาก `node:assert/strict` ดูตัวอย่างได้ที่ `src/lib/pricing.test.js` ไฟล์ที่ import ต้องใส่นามสกุล `.js` เพราะ Node ไม่เติมให้เหมือน Vite
 
 ไฟล์เทสต์ไม่ถูก bundle ลง `dist/` เพราะ Vite จะรวมเฉพาะไฟล์ที่ `index.html` อ้างถึงเท่านั้น
 
 ### เทสต์ที่มีอยู่
 
-- `src/pricing.test.js` ครอบคลุม `countTotal`, `goodRatio`, `calcPrice`, `goodRatioRange` และ `priceRange`
+- `src/lib/pricing.test.js` ครอบคลุม `countTotal`, `goodRatio`, `calcPrice`, `goodRatioRange` และ `priceRange`
+- `src/services/analyze.test.js` ครอบคลุม `fakeAnalyze` กรณีผ่าน, กรณีชื่อไฟล์มี `dark` และการคืนค่าเป็น Promise
 
 ## เทคโนโลยี
 
@@ -42,10 +43,10 @@ npm test                                   # รันทุกไฟล์ *.te
 |---|---|---|
 | UI | React 19 | deploy ได้ง่ายและกว้าง หน้าเว็บนี้ทำงานไม่มาก |
 | Build / dev server | Vite 8 | เริ่มเร็ว และรองรับ HMR |
-| CSS | Tailwind CSS v4 | ใช้ CSS เดิมของหน้าต้นฉบับได้ ดู [STYLE-LESSONS.md](STYLE-LESSONS.md) |
+| CSS | Tailwind CSS v4 | ใช้ CSS เดิมของหน้าต้นฉบับได้ |
 | Lint | oxlint | ตั้งค่าไว้ใน `.oxlintrc.json` |
 
-โปรเจกต์นี้ไม่มี TypeScript และไม่มี router ยังไม่มี test runner
+โปรเจกต์นี้ไม่มี TypeScript และไม่มี router unit test ใช้ `node:test` ที่มากับ Node
 
 ## การ deploy
 
@@ -68,9 +69,11 @@ coffee/
 │   ├── main.jsx          จุดเริ่มต้น: เรนเดอร์ <App /> ลงใน #root
 │   ├── App.jsx           ตัวควบคุมหลัก: เก็บ state และสลับหน้า
 │   ├── index.css         Tailwind + สีและฟอนต์ของแบรนด์ (@theme)
-│   ├── data.js           รายการประเภทเมล็ด และผลตัวอย่าง (ไม่มี JSX จึงเป็น .js)
-│   ├── analyze.js        ฟังก์ชันจำลองการวิเคราะห์รูป (fakeAnalyze)
-│   ├── pricing.js        สูตรคำนวณราคาและช่วงราคา
+│   ├── lib/              logic และข้อมูล ไม่มี UI (test วางข้างไฟล์)
+│   │   ├── data.js       รายการประเภทเมล็ด และผลตัวอย่าง
+│   │   └── pricing.js    สูตรคำนวณราคาและช่วงราคา
+│   ├── services/         ติดต่อระบบภายนอก
+│   │   └── analyze.js    ฟังก์ชันจำลองการวิเคราะห์รูป (fakeAnalyze)
 │   ├── pages/            หนึ่งไฟล์ต่อหนึ่งหน้า
 │   └── components/       ชิ้นส่วน UI แยกตามหน้าที่ (ดูด้านล่าง)
 │       ├── layout/       โครงของทุกหน้า: Header, Footer, Section, SectionHead
@@ -78,8 +81,7 @@ coffee/
 │       ├── icons/        ไอคอนเมล็ด: BeanIcon, BeanPile
 │       ├── home/         เฉพาะหน้าแรก: Uploader, PhotoTip, BeanCard
 │       └── result/       เฉพาะหน้าผลลัพธ์: BeanClassBar, PriceCard, StatCard
-├── LESSONS.md            บทเรียน React ทีละบท
-└── STYLE-LESSONS.md      บทเรียนการจัดหน้าตาด้วย Tailwind
+└── LESSONS.md            บทเรียน React ทีละบท
 ```
 
 ## หลักการตั้งชื่อไฟล์
@@ -96,9 +98,15 @@ coffee/
 - **`main.jsx`** เรนเดอร์ `<App />` ลงใน `#root` และโหลด `index.css`
 - **`App.jsx`** เก็บ state หลัก (`view`, `file`, `result`, `errorReason`, `loading`) ฟังก์ชัน `analyze()` เรียก `fakeAnalyze` แล้วเลือกหน้าที่จะแสดง: `home`, `result` หรือ `error`
 - **`index.css`** ประกาศสีและฟอนต์ของแบรนด์ด้วย `@theme` ของ Tailwind ชื่อสี เช่น `bg-accent` หรือ `text-muted` มาจากตรงนี้
+
+### `lib/` logic และข้อมูล (ไม่มี UI)
+
 - **`data.js`** รายการประเภทเมล็ด 7 แบบ (`beans`) และผลตัวอย่าง (`sampleResult`) ที่มี `counts` และ `marketPrice`
-- **`analyze.js`** `fakeAnalyze(file)` รอ 100 มิลลิวินาที ถ้าชื่อไฟล์มี `dark` จะ reject ด้วย `{ reason }` ไม่เช่นนั้นคืน `sampleResult`
 - **`pricing.js`** `calcPrice` คำนวณราคาจากสัดส่วนเมล็ดดี `goodRatioRange` คำนวณช่วงความเชื่อมั่น 95% ของสัดส่วนนั้นด้วยสูตร Wilson และ `priceRange` แปลงเป็นช่วงราคา
+
+### `services/` ติดต่อระบบภายนอก
+
+- **`analyze.js`** `fakeAnalyze(file)` รอ 100 มิลลิวินาที ถ้าชื่อไฟล์มี `dark` จะ reject ด้วย `{ reason }` ไม่เช่นนั้นคืน `sampleResult` ตอนต่อ API จริงให้แก้ไฟล์นี้
 
 ### `pages/` (หนึ่งหน้า หนึ่งไฟล์)
 
@@ -149,7 +157,7 @@ coffee/
 ## ขั้นตอนการทำงาน
 
 1. ผู้ใช้เลือกรูปใน `Uploader` แล้วกดวิเคราะห์
-2. `App.analyze()` เรียก `fakeAnalyze` ใน `analyze.js`
+2. `App.analyze()` เรียก `fakeAnalyze` ใน `services/analyze.js`
 3. ถ้าสำเร็จ จะไปที่ `ResultPage` ที่คำนวณเกรด ราคา และสัดส่วนจาก `counts`
 4. ถ้าไม่สำเร็จ จะไปที่ `ErrorPage` พร้อมเหตุผล
 
