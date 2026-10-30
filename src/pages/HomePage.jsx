@@ -14,7 +14,7 @@ export default function HomePage({
 }) {
   return (
     <>
-      <main className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-14 items-center">
+      <main className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-14 md:items-start">
         <div>
           <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
             ถ่ายรูปสารกาแฟ
