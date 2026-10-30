@@ -1,7 +1,7 @@
 const tones = {
   light: "",
   surface: "bg-surface border-y border-line",
-  dark: "bg-dark text-[#F3E6D6]",
+  dark: "bg-dark text-dark-ink",
 };
 
 export default function Section({ tone = "light", id, children }) {

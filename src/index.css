@@ -16,6 +16,17 @@
   --color-bad: #8E3B1C;
   --color-bad-bg: #F6DED2;
 
+  /* บนพื้นเข้ม (section วิธีถ่ายรูป) */
+  --color-dark2: #3B2619;
+  --color-dark-ink: #F3E6D6;
+  --color-dark-muted: #D9C6B0;
+  --color-ok: #B9E0A5;
+  --color-no: #F2B49A;
+
+  /* พื้นรูปตัวอย่างใน Tip */
+  --color-floor-pattern: #8A6A4F;
+  --color-floor-dim: #6E6A63;
+
   --font-head: "Prompt", system-ui, sans-serif;
   --font-body: "IBM Plex Sans Thai", system-ui, sans-serif;
 

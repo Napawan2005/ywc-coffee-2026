@@ -1,12 +1,22 @@
-export default function Tip({ title , bad , children }) {
+import Beans from "./Beans"
+
+export default function Tip({ title, bad, children, badBg = "bg-white", badFill, stacked }) {
     return (
-        <div className="bg-stone-800 rounded-2xl p-5 flex flex-col gap-3">
-            <h3>{title}</h3>
-            <p>{children}</p>
-            <div className="mt-auto flex justify-between text-sm font-semibold">
-                <span className="text-green-400">✓ ถูก</span>
-                <span className="text-orange-300">{bad}</span>
+        <div className="bg-dark2 rounded-2xl p-5 flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-2">
+                <div className="grid h-24 place-items-center rounded-lg bg-white">
+                    <Beans />
+                </div>
+                <div className={`grid h-24 place-items-center rounded-lg ${badBg}`}>
+                    <Beans fill={badFill} stacked={stacked} />
+                </div>
             </div>
+            <div className="flex justify-between text-sm font-semibold">
+                <span className="text-ok">✓ ถูก</span>
+                <span className="text-no">{bad}</span>
+            </div>
+            <h3 className="text-lg font-semibold">{title}</h3>
+            <p className="text-sm text-dark-muted">{children}</p>
         </div>
     )
 }

@@ -4,7 +4,7 @@ export default function ErrorPage({ onNavigate, reason }) {
   return (
     <main className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-14 md:items-start">
       <div className="flex flex-col gap-4">
-        <span className="text-sm font-semibold text-red-800">⚠ รูปไม่ผ่านการตรวจ</span>
+        <span className="text-sm font-semibold text-bad">⚠ รูปไม่ผ่านการตรวจ</span>
         <h1 className="text-4xl md:text-5xl font-semibold leading-tight">รูปนี้ยังประเมินราคาไม่ได้</h1>
         <p>{reason || "ระบบพบว่าแสงไม่พอ"} ถ่ายใกล้หน้าต่างแล้วอัปโหลดใหม่</p>
         <Button variant="outline" className="self-start" onClick={() => onNavigate("home")}>กลับหน้าหลัก</Button>

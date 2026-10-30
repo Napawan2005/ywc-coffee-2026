@@ -3,7 +3,7 @@ const variants = {
   outline: "border-[1.5px] border-accent text-accent",
   latte: "bg-latte text-ink",
   dark: "bg-dark text-surface",
-  ghost: "border-[1.5px] border-latte text-[#F3E6D6]"
+  ghost: "border-[1.5px] border-latte text-dark-ink"
 };
 
 
