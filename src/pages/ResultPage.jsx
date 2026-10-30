@@ -61,19 +61,21 @@ export default function ResultPage({ onNavigate, file, result, onRetry }) {
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-[3fr_2fr]">
-          <div className="flex rounded-3xl border border-line bg-surface p-5">
-            {preview ? (
-              <img
-                src={preview}
-                alt="รูปที่อัปโหลด"
-                className="min-h-72 w-full rounded-2xl object-cover"
-              />
-            ) : (
-              <div className="grid min-h-72 w-full place-items-center rounded-2xl bg-soft text-muted">
-                ตัวอย่างผลประเมิน (ยังไม่ได้อัปโหลดรูป)
-              </div>
-            )}
+        <div className="grid gap-6 md:grid-cols-[3fr_2fr] md:items-start">
+          <div className="rounded-3xl border border-line bg-surface p-5">
+            <div className="relative h-80 w-full overflow-hidden rounded-2xl">
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="รูปที่อัปโหลด"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <div className="grid h-full w-full place-items-center bg-soft text-muted">
+                  ตัวอย่างผลประเมิน (ยังไม่ได้อัปโหลดรูป)
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
