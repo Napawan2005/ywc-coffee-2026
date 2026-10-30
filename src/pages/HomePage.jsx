@@ -42,9 +42,9 @@ export default function HomePage({
           title="จำแนกเมล็ดได้ 7 แบบ"
           desc="เมล็ดคุณภาพดี 1 แบบ และข้อบกพร่อง 6 แบบ ใช้คำนวณเปอร์เซ็นต์เมล็ดเสียและเกรด"
         />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-4">
           {beans.map((b) => (
-            <BeanCard key={b.id} name={b.name} desc={b.desc} good={b.good} />
+            <BeanCard key={b.id} {...b} />
           ))}
         </div>
       </Section>
