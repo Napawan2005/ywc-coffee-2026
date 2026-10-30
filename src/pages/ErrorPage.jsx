@@ -66,7 +66,14 @@ export default function ErrorPage({ onNavigate, reason }) {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button variant="latte" className="flex-1" onClick={() => onNavigate("home")}>
+              <Button
+                variant="latte"
+                className="flex-1"
+                onClick={() => {
+                  onNavigate("home");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
                 อัปโหลดรูปใหม่ →
               </Button>
               <Button
