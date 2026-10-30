@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { beans, sampleResult } from "../data";
-import Button from "../components/Button";
+import Button from "../components/ui/Button";
 import { calcPrice, priceRange } from "../pricing";
-import PriceCard from "../components/PriceCard";
-import StatCard from "../components/StatCard";
-import ClassBar from "../components/ClassBar";
-import Section from "../components/Section";
-import SectionHead from "../components/SectionHead";
+import PriceCard from "../components/result/PriceCard";
+import StatCard from "../components/result/StatCard";
+import BeanClassBar from "../components/result/BeanClassBar";
+import Section from "../components/layout/Section";
+import SectionHead from "../components/layout/SectionHead";
 
 export default function ResultPage({ onNavigate, file, result }) {
   const [preview, setPreview] = useState(null);
@@ -103,7 +103,7 @@ export default function ResultPage({ onNavigate, file, result }) {
         />
         <div className="grid grid-cols-12 gap-4">
           {beans.map((b) => (
-            <ClassBar key={b.id} bean={b} count={counts[b.id]} total={total} />
+            <BeanClassBar key={b.id} bean={b} count={counts[b.id]} total={total} />
           ))}
         </div>
       </Section>

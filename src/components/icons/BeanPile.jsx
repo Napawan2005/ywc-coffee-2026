@@ -1,4 +1,4 @@
-export default  function Beans({ fill = "#A4B077", stacked = false }) {
+export default function BeanPile({ fill = "#A4B077", stacked = false }) {
   const spots = stacked
     ? [[28, 18], [34, 16], [38, 22], [31, 25], [42, 17]]   // กองทับกัน
     : [[12, 12], [34, 12], [56, 12], [23, 30], [45, 30]];  // เกลี่ยห่างกัน

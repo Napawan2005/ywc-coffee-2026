@@ -1,6 +1,6 @@
-import BeanIcon from "./BeanIcon";
+import BeanIcon from "../icons/BeanIcon";
 
-export default function ClassBar({ bean, count, total }) {
+export default function BeanClassBar({ bean, count, total }) {
   const pct = total ? (count /total) * 100 : 0;
 
   return (

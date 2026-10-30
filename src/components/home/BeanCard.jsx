@@ -1,4 +1,4 @@
-import BeanIcon from "./BeanIcon";
+import BeanIcon from "../icons/BeanIcon";
 
 export default function BeanCard({ id, name, desc, good, wide }) {
   return (

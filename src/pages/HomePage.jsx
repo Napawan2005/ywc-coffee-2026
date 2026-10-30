@@ -1,9 +1,9 @@
-import BeanCard from "../components/BeanCard";
+import BeanCard from "../components/home/BeanCard";
 import { beans } from "../data";
-import Tip from "../components/Tip";
-import Uploader from "../components/Uploader";
-import Section from "../components/Section";
-import SectionHead from "../components/SectionHead";
+import PhotoTip from "../components/home/PhotoTip";
+import Uploader from "../components/home/Uploader";
+import Section from "../components/layout/Section";
+import SectionHead from "../components/layout/SectionHead";
 
 export default function HomePage({
   onNavigate,
@@ -55,17 +55,17 @@ export default function HomePage({
           title="ถ่ายแบบนี้ ผ่านการตรวจแน่นอน"
         />
         <div className="grid md:grid-cols-4 gap-4">
-          <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย"  badBg="bg-floor-pattern">
+          <PhotoTip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย"  badBg="bg-floor-pattern">
             กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
-          </Tip>
+          </PhotoTip>
 
-          <Tip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน" stacked>
+          <PhotoTip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน" stacked>
             ประมาณ 100 เมล็ดต่อรูป เห็นทุกเมล็ดชัด
-          </Tip>
+          </PhotoTip>
 
-          <Tip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา" badBg="bg-floor-dim" badFill="#5B6142">
+          <PhotoTip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา" badBg="bg-floor-dim" badFill="#5B6142">
             ใช้แสงธรรมชาติ ไม่ใช้แฟลช
-          </Tip>
+          </PhotoTip>
 
           <div className="bg-dark2 rounded-2xl p-5 flex flex-col gap-3">
             <div className="grid h-24 place-items-center rounded-lg bg-white">

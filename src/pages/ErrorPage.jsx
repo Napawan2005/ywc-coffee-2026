@@ -1,5 +1,5 @@
-import Button from "../components/Button"
-import Beans from "../components/Beans"
+import Button from "../components/ui/Button"
+import BeanPile from "../components/icons/BeanPile"
 
 const checks = [
   { label: "แสงไม่พอ", detail: "รูปมืดเกินไป ระบบมองไม่เห็นสีเมล็ดชัด", pass: false },
@@ -28,7 +28,7 @@ export default function ErrorPage({ onNavigate, reason }) {
         <div className="rounded-3xl border border-line bg-surface p-5">
           <div className="relative grid h-80 place-items-center rounded-2xl bg-floor-dim">
             <div className="scale-[2.5]">
-              <Beans fill="#5B6142" />
+              <BeanPile fill="#5B6142" />
             </div>
             <span className="absolute bottom-3 left-3 rounded-full bg-dark/85 px-3 py-1 text-xs text-bg">
               ภาพประกอบ · รูปที่อัปโหลด

@@ -1,14 +1,14 @@
-import Beans from "./Beans"
+import BeanPile from "../icons/BeanPile"
 
-export default function Tip({ title, bad, children, badBg = "bg-white", badFill, stacked }) {
+export default function PhotoTip({ title, bad, children, badBg = "bg-white", badFill, stacked }) {
     return (
         <div className="bg-dark2 rounded-2xl p-5 flex flex-col gap-3">
             <div className="grid grid-cols-2 gap-2">
                 <div className="grid h-24 place-items-center rounded-lg bg-white">
-                    <Beans />
+                    <BeanPile />
                 </div>
                 <div className={`grid h-24 place-items-center rounded-lg ${badBg}`}>
-                    <Beans fill={badFill} stacked={stacked} />
+                    <BeanPile fill={badFill} stacked={stacked} />
                 </div>
             </div>
             <div className="flex justify-between text-sm font-semibold">

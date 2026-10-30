@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Button from "./Button";
+import Button from "../ui/Button";
 
 export default function Uploader({ file, onFileChange, onAnalyze, loading, onNavigate }) {
   const [preview, setPreview] = useState(null);

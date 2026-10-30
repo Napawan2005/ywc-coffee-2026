@@ -1,10 +1,10 @@
-import Header from "./components/Header"
-import Footer from "./components/Footer"
+import Header from "./components/layout/Header"
+import Footer from "./components/layout/Footer"
 import { useState } from "react"
 import HomePage from "./pages/HomePage"
 import ErrorPage from "./pages/ErrorPage"
 import ResultPage from "./pages/ResultPage"
-import { fakeAnalyze } from "./api"
+import { fakeAnalyze } from "./analyze"
 
 
 function App() {
