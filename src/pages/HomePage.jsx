@@ -1,22 +1,25 @@
 import BeanCard from "../components/BeanCard";
 import { beans } from "../data";
 import Tip from "../components/Tip";
-import Button from "../components/Button";
 import Uploader from "../components/Uploader";
 import Section from "../components/Section";
 import SectionHead from "../components/SectionHead";
 
-export default function HomePage({ onNavigate, file, onFileChange, loading, onAnalyze }) {
-  
-
+export default function HomePage({
+  onNavigate,
+  file,
+  onFileChange,
+  loading,
+  onAnalyze,
+}) {
   return (
     <>
       <main className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-14 items-center">
         <div>
-          <h1 className="text-accent bg-latte">
+          <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
             ถ่ายรูปสารกาแฟ
             <br />
-            <span>รู้เกรดและราคา</span>
+            <span className="text-accent">รู้เกรดและราคา</span>
             <br />
             ในไม่กี่วินาที
           </h1>
@@ -30,23 +33,9 @@ export default function HomePage({ onNavigate, file, onFileChange, loading, onAn
           onFileChange={onFileChange}
           onAnalyze={onAnalyze}
           loading={loading}
+          onNavigate={onNavigate}
         />
       </main>
-      <div className="flex gap-3 mt-6">
-        <Button
-          variant="outline"
-          onClick={() => onNavigate("result")}
-        >
-          ตัวอย่างผลประเมิน
-        </Button>
-
-        <Button
-          variant="outline"
-          onClick={() => onNavigate("error")}
-        >
-          ตัวอย่าง: รูปไม่ผ่าน
-        </Button>
-      </div>
       <Section tone="surface" id="classes">
         <SectionHead
           eyebrow="ระบบตรวจอะไรบ้าง"
@@ -60,7 +49,11 @@ export default function HomePage({ onNavigate, file, onFileChange, loading, onAn
         </div>
       </Section>
       <Section tone="dark" id="guide">
-        <SectionHead dark eyebrow="ก่อนถ่ายรูป" title="ถ่ายแบบนี้ ผ่านการตรวจแน่นอน" />
+        <SectionHead
+          dark
+          eyebrow="ก่อนถ่ายรูป"
+          title="ถ่ายแบบนี้ ผ่านการตรวจแน่นอน"
+        />
         <div className="grid md:grid-cols-4 gap-4">
           <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย">
             กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
