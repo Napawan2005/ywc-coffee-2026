@@ -69,7 +69,14 @@ export default function ErrorPage({ onNavigate, reason }) {
               <Button variant="latte" className="flex-1" onClick={() => onNavigate("home")}>
                 อัปโหลดรูปใหม่ →
               </Button>
-              <Button variant="ghost" className="flex-1" onClick={() => onNavigate("home")}>
+              <Button
+                variant="ghost"
+                className="flex-1"
+                onClick={() => {
+                  onNavigate("home");
+                  setTimeout(() => document.getElementById("guide")?.scrollIntoView({ behavior: "smooth" }), 0);
+                }}
+              >
                 ดูวิธีถ่ายรูป
               </Button>
             </div>
