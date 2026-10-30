@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { beans, sampleResult } from "../data";
 import Button from "../components/Button"
 
-export default function ResultPage({ onNavigate, file }) {
+export default function ResultPage({ onNavigate, file, result }) {
   const [preview, setPreview] = useState(null);
   const sizeMB = file ? file.size / 1024 / 1024 : 0;
 
-  const counts = sampleResult.counts;
+  const data = result ?? sampleResult;
+  const counts = data.counts;
   const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
   const good = counts[1];
@@ -30,7 +31,7 @@ export default function ResultPage({ onNavigate, file }) {
     factor = 0.6;
   }
 
-  const price = Math.round(sampleResult.marketPrice * factor);
+  const price = Math.round(data.marketPrice * factor);
 
   const priceMin = Math.round(price * 0.95);
   const priceMax = Math.round(price * 1.05);
@@ -71,7 +72,7 @@ export default function ResultPage({ onNavigate, file }) {
         </p>
         <p className="text-sm text-stone-400">
           ช่วงราคา ฿{priceMin} – ฿{priceMax} · ราคาตลาด ฿
-          {sampleResult.marketPrice}
+          {data.marketPrice}
         </p>
       </div>
 

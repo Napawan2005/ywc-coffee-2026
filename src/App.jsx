@@ -11,13 +11,17 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [view,setView] = useState("home")
   const [file, setFile] = useState(null)
+  const [result, setResult] = useState(null)
+  const [errorReason, setErrorReason] = useState("")
 
   async function analyze() {
     setLoading(true)
     try {
-      await fakeAnalyze(file)
+      const data = await fakeAnalyze(file)
+      setResult(data)
       setView("result")
-    } catch {
+    } catch (err) {
+      setErrorReason(err.reason)
       setView("error")
     } finally {
       setLoading(false)
@@ -36,8 +40,8 @@ function App() {
           onAnalyze={analyze}
         />
       )}
-      {view === "result" && <ResultPage onNavigate={setView} file={file} />}
-      {view === "error" && <ErrorPage onNavigate={setView} />}
+      {view === "result" && <ResultPage onNavigate={setView} file={file} result={result}/>}
+      {view === "error" && <ErrorPage onNavigate={setView} reason={errorReason} />}
       <Footer />
     </>
   )

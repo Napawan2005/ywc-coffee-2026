@@ -1,50 +1,17 @@
 import BeanCard from "../components/BeanCard";
 import { beans } from "../data";
 import Tip from "../components/Tip";
-import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
+import Uploader from "../components/Uploader";
 import Section from "../components/Section";
 import SectionHead from "../components/SectionHead";
 
 export default function HomePage({ onNavigate, file, onFileChange, loading, onAnalyze }) {
-  const [preview, setPreview] = useState(null);
-  const inputRef = useRef(null);
-  const [dragging, setDragging] = useState(false);
-
-  const MAX_MB = 10;
-  const sizeMB = file ? file.size / 1024 / 1024 : 0;
-  const tooBig = sizeMB >= MAX_MB;
-
-  const clearFile = () => {
-    onFileChange(null);
-    setPreview(null);
-    inputRef.current.value = "";
-  };
-
-  useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
-  const handleUpload = () => {
-    if (!file) return;
-    onAnalyze();
-  };
-
-  const pick = (f) => {
-    if (!f) return;
-    if (!f.type.startsWith("image/")) {
-      alert("รองรับเฉพาะไฟล์รูปภาพ");
-      return;
-    }
-    onFileChange(f);
-  };
+  
 
   return (
     <>
-      <main className="wrap hero">
+      <main className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-14 items-center">
         <div>
           <h1 className="text-accent bg-latte">
             ถ่ายรูปสารกาแฟ
@@ -58,57 +25,12 @@ export default function HomePage({ onNavigate, file, onFileChange, loading, onAn
             แล้วประเมินราคาเบื้องต้นจากราคาตลาด
           </p>
         </div>
-        <div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(e) => pick(e.target.files[0])}
-          />
-          <div
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragging(true);
-            }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              setDragging(false);
-              pick(e.dataTransfer.files[0]);
-            }}
-            onClick={() => inputRef.current.click()}
-            className={
-              dragging
-                ? "border-2 border-amber-600 bg-amber-50 rounded-xl p-8 text-center cursor-pointer"
-                : "border-2 border-dashed border-stone-300 rounded-xl p-8 text-center cursor-pointer"
-            }
-          >
-            ลากรูปมาวาง หรือคลิกเพื่อเลือก
-          </div>
-          <p className="text-sm text-stone-500">
-            รองรับ JPG, PNG, WEBP · ไม่เกิน {MAX_MB} MB
-          </p>
-          {file && (
-            <>
-              <img src={preview} width={200} />
-              <p
-                className={
-                  tooBig ? "text-sm text-red-600" : "text-sm text-stone-600"
-                }
-              >
-                {file.name} · {sizeMB.toFixed(1)} MB{" "}
-                {tooBig && `(เกิน ${MAX_MB} MB)`}
-              </p>
-
-              <button onClick={clearFile} className="text-stone-500 hover:text-red-600 px-3">✕</button>
-
-              <Button onClick={handleUpload} disabled={tooBig || loading}>
-                {loading ? "กำลังวิเคราะห์…" : "เริ่มประเมินราคา"}
-              </Button>
-            </>
-          )}
-        </div>
+        <Uploader
+          file={file}
+          onFileChange={onFileChange}
+          onAnalyze={onAnalyze}
+          loading={loading}
+        />
       </main>
       <div className="flex gap-3 mt-6">
         <Button
