@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { beans, sampleResult } from "../data";
 import Button from "../components/Button"
+import { calcPrice, goodRatio, priceRange } from "../pricing";
 
 export default function ResultPage({ onNavigate, file, result }) {
   const [preview, setPreview] = useState(null);
@@ -16,25 +17,19 @@ export default function ResultPage({ onNavigate, file, result }) {
   const defectPct = ((total - good) / total) * 100;
   console.log({ total, good, defectPct });
 
-  let grade, factor;
+  let grade;
   if (defectPct <= 5) {
     grade = "A";
-    factor = 1.0;
   } else if (defectPct <= 10) {
     grade = "B";
-    factor = 0.9;
   } else if (defectPct <= 20) {
     grade = "C";
-    factor = 0.75;
   } else {
     grade = "ตกเกรด";
-    factor = 0.6;
   }
 
-  const price = Math.round(data.marketPrice * factor);
-
-  const priceMin = Math.round(price * 0.95);
-  const priceMax = Math.round(price * 1.05);
+  const price = calcPrice(counts, data.marketPrice);
+  const { min: priceMin, max: priceMax } = priceRange(counts, data.marketPrice);
 
   useEffect(() => {
     if (!file) return;
@@ -71,8 +66,12 @@ export default function ResultPage({ onNavigate, file, result }) {
           ฿{price} <small className="text-xl">/ กก.</small>
         </p>
         <p className="text-sm text-stone-400">
-          ช่วงราคา ฿{priceMin} – ฿{priceMax} · ราคาตลาด ฿
-          {data.marketPrice}
+          ช่วงราคา ฿{priceMin} – ฿{priceMax} · ราคาอ้างอิงตลาดไทย ฿
+          {data.marketPrice} / กก.
+        </p>
+        <p className="mt-4 text-stone-300">
+          เมล็ดดี {good} จาก {total} เมล็ด ({(goodRatio(counts) * 100).toFixed(0)}%)
+          × ราคาอ้างอิง ฿{data.marketPrice} = ฿{price} / กก.
         </p>
       </div>
 
