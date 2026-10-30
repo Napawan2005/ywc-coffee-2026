@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { beans, sampleResult } from "../data";
 import Button from "../components/Button";
-import { calcPrice, goodRatio, priceRange } from "../pricing";
+import { calcPrice, priceRange } from "../pricing";
 import PriceCard from "../components/PriceCard";
 import StatCard from "../components/StatCard";
 import ClassBar from "../components/ClassBar";
+import Section from "../components/Section";
+import SectionHead from "../components/SectionHead";
 
 export default function ResultPage({ onNavigate, file, result }) {
   const [preview, setPreview] = useState(null);
-  const sizeMB = file ? file.size / 1024 / 1024 : 0;
 
   const data = result ?? sampleResult;
   const counts = data.counts;
@@ -18,7 +19,6 @@ export default function ResultPage({ onNavigate, file, result }) {
   const defect = total - good;
 
   const defectPct = ((total - good) / total) * 100;
-  console.log({ total, good, defectPct });
 
   let grade;
   if (defectPct <= 5) {
@@ -42,51 +42,71 @@ export default function ResultPage({ onNavigate, file, result }) {
   }, [file]);
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-4">
-      <Button variant="outline" onClick={() => onNavigate("home")}>
-        กลับหน้าหลัก
-      </Button>
-      {file ? (
-        <>
-          {preview && <img src={preview} width={200} />}
-          <p className="text-sm text-stone-600">
-            {file.name} · {sizeMB.toFixed(1)} MB
-          </p>
-        </>
-      ) : (
-        <p className="text-stone-500">
-          ตัวอย่างผลประเมิน (ยังไม่ได้อัปโหลดรูป)
-        </p>
-      )}
-      <p className="text-stone-600">
-        ทั้งหมด {total} เมล็ด · เมล็ดดี {good} · เสีย {defect}
-      </p>
+    <>
+      <main className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-8">
+        <div className="flex flex-wrap items-end justify-between gap-5">
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-semibold text-accent">
+              ผลการประเมิน · {new Date().toLocaleString("th-TH")}
+            </span>
+            <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
+              สารกาแฟของคุณ <span className="text-accent">ได้เกรด {grade}</span>
+            </h1>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={() => onNavigate("home")}>ประเมินรูปใหม่ →</Button>
+            <Button variant="outline" onClick={() => onNavigate("home")}>
+              กลับหน้าหลัก
+            </Button>
+          </div>
+        </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <StatCard label="เกรด" value={grade} note="ตามเกณฑ์ข้อบกพร่อง" />
-        <StatCard
-          label="เมล็ดมีข้อบกพร่อง"
-          value={`${defectPct.toFixed(1)}%`}
-          note={`${defect} จาก ${total} เมล็ด`}
+        <div className="grid gap-6 md:grid-cols-[3fr_2fr]">
+          <div className="flex rounded-3xl border border-line bg-surface p-5">
+            {preview ? (
+              <img
+                src={preview}
+                alt="รูปที่อัปโหลด"
+                className="min-h-72 w-full rounded-2xl object-cover"
+              />
+            ) : (
+              <div className="grid min-h-72 w-full place-items-center rounded-2xl bg-soft text-muted">
+                ตัวอย่างผลประเมิน (ยังไม่ได้อัปโหลดรูป)
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <PriceCard
+              price={price}
+              min={priceMin}
+              max={priceMax}
+              market={data.marketPrice}
+            />
+            <div className="grid flex-1 grid-cols-2 gap-4">
+              <StatCard label="เกรด" value={grade} note="ตามเกณฑ์ข้อบกพร่อง" />
+              <StatCard
+                label="เมล็ดมีข้อบกพร่อง"
+                value={`${defectPct.toFixed(1)}%`}
+                note={`${defect} จาก ${total} เมล็ด`}
+              />
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Section tone="surface">
+        <SectionHead
+          eyebrow="ผลการจำแนกเมล็ด"
+          title="ในรูปนี้พบอะไรบ้าง"
+          desc="สัดส่วนของแต่ละแบบเทียบกับจำนวนเมล็ดทั้งหมดที่ระบบตรวจพบ"
         />
-      </div>
-
-      <span className="text-amber-800 font-semibold">ผลการประเมิน</span>
-      <h1 className="text-4xl font-bold">สารกาแฟของคุณได้เกรด {grade}</h1>
-
-      <PriceCard
-        price={price}
-        min={priceMin}
-        max={priceMax}
-        market={data.marketPrice}
-      />
-
-      <h2 className="text-2xl font-semibold mt-6">แยกตามประเภท</h2>
-      <div className="grid md:grid-cols-2 gap-4">
-        {beans.map((b) => (
-          <ClassBar key={b.id} bean={b} count={counts[b.id]} total={total} />
-        ))}
-      </div>
-    </main>
+        <div className="grid grid-cols-12 gap-4">
+          {beans.map((b) => (
+            <ClassBar key={b.id} bean={b} count={counts[b.id]} total={total} />
+          ))}
+        </div>
+      </Section>
+    </>
   );
 }
