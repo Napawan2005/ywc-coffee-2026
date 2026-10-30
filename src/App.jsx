@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header onNavigate={setView} />
       {view === "home" && (
         <HomePage
           onNavigate={setView}
