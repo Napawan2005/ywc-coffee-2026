@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+
+@theme {
+  --color-bg: #F7F2EB;
+  --color-surface: #FFFCF8;
+  --color-soft: #F3E9DC;
+  --color-line: #E6D8C6;
+  --color-ink: #2A1C14;
+  --color-muted: #6B5446;
+  --color-accent: #7A4A24;
+  --color-latte: #E9C9A1;
+  --color-dark: #2A1C14;
+  --color-good: #2F6B8A;
+  --color-good-bg: #EAF2F6;
+  --color-bad: #8E3B1C;
+  --color-bad-bg: #F6DED2;
+
+  /* บนพื้นเข้ม (section วิธีถ่ายรูป) */
+  --color-dark2: #3B2619;
+  --color-dark-ink: #F3E6D6;
+  --color-dark-muted: #D9C6B0;
+  --color-ok: #B9E0A5;
+  --color-no: #F2B49A;
+
+  /* พื้นรูปตัวอย่างใน Tip */
+  --color-floor-pattern: #8A6A4F;
+  --color-floor-dim: #6E6A63;
+
+  --color-track: #EFE4D6;  /* รางแถบ */
+  --color-bar: #B8743A;    /* แถบเมล็ดเสีย */
+
+
+  --font-head: "Prompt", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans Thai", system-ui, sans-serif;
+
+}
+
+body {
+  @apply bg-bg text-ink font-body;
+}
+h1, h2, h3 {
+  @apply font-head;
+}
+

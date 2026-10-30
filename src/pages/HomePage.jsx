@@ -1,47 +1,25 @@
-import BeanCard from "../components/BeanCard";
+import BeanCard from "../components/home/BeanCard";
 import { beans } from "../data";
-import Tip from "../components/Tip";
-import { useEffect, useRef, useState } from "react";
+import PhotoTip from "../components/home/PhotoTip";
+import Uploader from "../components/home/Uploader";
+import Section from "../components/layout/Section";
+import SectionHead from "../components/layout/SectionHead";
 
-
-export default function HomePage({ onNavigate }) {
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const inputRef = useRef(null);
-
-  const MAX_MB = 10;
-  const sizeMB = file ? file.size / 1024 / 1024 : 0;
-  const tooBig = sizeMB >= MAX_MB;
-
-
-  const clearFile = () => {
-    setFile(null);
-    setPreview(null);
-    inputRef.current.value = "";
-  };
-
-  useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
-  const handleUpload = async () => {
-    if (!file) return;
-    const fd = new FormData();
-    fd.append("image", file);
-    await fetch("/api/upload", { method: "POST", body: fd });
-  };
-
+export default function HomePage({
+  onNavigate,
+  file,
+  onFileChange,
+  loading,
+  onAnalyze,
+}) {
   return (
     <>
-      <main className="wrap hero">
+      <main className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-14 md:items-start">
         <div>
-          <h1>
+          <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
             ถ่ายรูปสารกาแฟ
             <br />
-            <span>รู้เกรดและราคา</span>
+            <span className="text-accent">รู้เกรดและราคา</span>
             <br />
             ในไม่กี่วินาที
           </h1>
@@ -50,80 +28,64 @@ export default function HomePage({ onNavigate }) {
             แล้วประเมินราคาเบื้องต้นจากราคาตลาด
           </p>
         </div>
-        <div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          {file && (
-            <>
-              <p
-                className={
-                  tooBig ? "text-sm text-red-600" : "text-sm text-stone-600"
-                }
-              >
-                {file.name} · {sizeMB.toFixed(1)} MB{" "}
-                {tooBig && `(เกิน ${MAX_MB} MB)`}
-              </p>
-
-              {preview && <img src={preview} width={200} />}
-              <button onClick={clearFile}>✕</button>
-              <button onClick={handleUpload} disabled={tooBig}>
-                อัปโหลด
-              </button>
-            </>
-          )}
-        </div>
+        <Uploader
+          file={file}
+          onFileChange={onFileChange}
+          onAnalyze={onAnalyze}
+          loading={loading}
+          onNavigate={onNavigate}
+        />
       </main>
-      <div className="flex gap-3 mt-6">
-        <button
-          className="bg-amber-800 text-white rounded-xl p-6 font-semibold"
-          onClick={() => onNavigate("result")}
-        >
-          ตัวอย่างผลประเมิน
-        </button>
-
-        <button
-          className="border border-amber-800 text-amber-800 rounded-xl px-5 py-3 font-semibold"
-          onClick={() => onNavigate("error")}
-        >
-          ตัวอย่าง: รูปไม่ผ่าน
-        </button>
-      </div>
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        <h2 className="text-2xl font-semibold mb-6">จำแนกเมล็ดได้ 7 แบบ</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <Section tone="surface" id="classes">
+        <SectionHead
+          eyebrow="ระบบตรวจอะไรบ้าง"
+          title="จำแนกเมล็ดได้ 7 แบบ"
+          desc="เมล็ดคุณภาพดี 1 แบบ และข้อบกพร่อง 6 แบบ ใช้คำนวณเปอร์เซ็นต์เมล็ดเสียและเกรด"
+        />
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-4">
           {beans.map((b) => (
-            <BeanCard key={b.id} name={b.name} desc={b.desc} good={b.good} />
+            <BeanCard key={b.id} {...b} />
           ))}
         </div>
-      </section>
-      <section className="bg-stone-900 text-stone-100">
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <h2 className="text-2xl font-semibold mb-6">
-            ถ่ายแบบนี้ ผ่านการตรวจแน่นอน
-          </h2>
-          <div className="grid md:grid-cols-4 gap-4">
-            <Tip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย">
-              กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
-            </Tip>
+      </Section>
+      <Section tone="dark" id="guide">
+        <SectionHead
+          dark
+          eyebrow="ก่อนถ่ายรูป"
+          title="ถ่ายแบบนี้ ผ่านการตรวจแน่นอน"
+        />
+        <div className="grid md:grid-cols-4 gap-4">
+          <PhotoTip title="วางบนพื้นสีขาวเรียบ" bad="✗ พื้นมีสี/ลาย"  badBg="bg-floor-pattern">
+            กระดาษหรือถาด<b>สีขาว</b> ไม่มีลวดลาย
+          </PhotoTip>
 
-            <Tip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน">
-              ประมาณ 100 เมล็ดต่อรูป เห็นทุกเมล็ดชัด
-            </Tip>
+          <PhotoTip title="เกลี่ยไม่ให้ซ้อนกัน" bad="✗ เมล็ดซ้อนกัน" stacked>
+            ประมาณ 100 เมล็ดต่อรูป เห็นทุกเมล็ดชัด
+          </PhotoTip>
 
-            <Tip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา">
-              ใช้แสงธรรมชาติ ไม่ใช้แฟลช
-            </Tip>
+          <PhotoTip title="แสงสว่างพอ ไม่มีเงา" bad="✗ มืด / มีเงา" badBg="bg-floor-dim" badFill="#5B6142">
+            ใช้แสงธรรมชาติ ไม่ใช้แฟลช
+          </PhotoTip>
 
-            <Tip title="วางไม้บรรทัดเทียบขนาด" bad="✗ ไม่มี (ไม่บังคับ)">
-              ให้ระบบวัดขนาดเมล็ดได้ด้วย
-            </Tip>
+          <div className="bg-dark2 rounded-2xl p-5 flex flex-col gap-3">
+            <div className="grid h-24 place-items-center rounded-lg bg-white">
+              <svg width="150" height="60" viewBox="0 0 150 60" aria-hidden="true">
+                <rect x="8" y="38" width="134" height="16" rx="2" fill="#F1E3CC" stroke="#C9A882" />
+                <path
+                  d="M18 38v8M32 38v5M46 38v8M60 38v5M74 38v8M88 38v5M102 38v8M116 38v5M130 38v8"
+                  stroke="#7A4A24"
+                  strokeWidth="1.4"
+                />
+                <ellipse cx="50" cy="18" rx="7" ry="10" fill="#A4B077" />
+                <ellipse cx="84" cy="18" rx="7" ry="10" fill="#A4B077" />
+              </svg>
+            </div>
+            <span className="text-sm font-semibold text-latte">ตัวเลือกเสริม</span>
+            <h3 className="text-lg font-semibold">วางไม้บรรทัดเทียบขนาด</h3>
+            <p className="text-sm text-dark-muted">ให้ระบบวัดขนาดเมล็ดได้ด้วย</p>
           </div>
         </div>
-      </section>
+      </Section>
     </>
   );
 }
