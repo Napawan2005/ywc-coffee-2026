@@ -8,6 +8,6 @@ export function fakeAnalyze(file) {
       } else {
         resolve(sampleResult);
       }
-    }, 1500);
+    }, 100);
   });
 }
