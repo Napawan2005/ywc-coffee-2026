@@ -71,7 +71,6 @@ coffee/
 │   ├── data.js           รายการประเภทเมล็ด และผลตัวอย่าง (ไม่มี JSX จึงเป็น .js)
 │   ├── analyze.js        ฟังก์ชันจำลองการวิเคราะห์รูป (fakeAnalyze)
 │   ├── pricing.js        สูตรคำนวณราคาและช่วงราคา
-│   ├── assets/           รูปและ SVG ที่ใช้ในหน้า
 │   ├── pages/            หนึ่งไฟล์ต่อหนึ่งหน้า
 │   └── components/       ชิ้นส่วน UI แยกตามหน้าที่ (ดูด้านล่าง)
 │       ├── layout/       โครงของทุกหน้า: Header, Footer, Section, SectionHead
