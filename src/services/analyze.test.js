@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { fakeAnalyze } from "./analyze.js";
-import { sampleResult } from "./data.js";
+import { sampleResult } from "../lib/data_beans.js";
 
 test("fakeAnalyze: ชื่อไฟล์ปกติได้ sampleResult", async () => {
   const result = await fakeAnalyze({ name: "beans.png" });

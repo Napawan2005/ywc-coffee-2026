@@ -1,5 +1,5 @@
 import BeanCard from "../components/home/BeanCard";
-import { beans } from "../data";
+import { beans } from "../lib/data_beans";
 import PhotoTip from "../components/home/PhotoTip";
 import Uploader from "../components/home/Uploader";
 import Section from "../components/layout/Section";

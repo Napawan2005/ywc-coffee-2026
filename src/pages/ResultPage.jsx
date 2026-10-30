@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { beans, sampleResult } from "../data";
+import { beans, sampleResult } from "../lib/data_beans";
 import Button from "../components/ui/Button";
-import { calcPrice, priceRange } from "../pricing";
+import { calcPrice, priceRange } from "../lib/pricing";
 import PriceCard from "../components/result/PriceCard";
 import StatCard from "../components/result/StatCard";
 import BeanClassBar from "../components/result/BeanClassBar";

@@ -4,7 +4,7 @@ import { useState } from "react"
 import HomePage from "./pages/HomePage"
 import ErrorPage from "./pages/ErrorPage"
 import ResultPage from "./pages/ResultPage"
-import { fakeAnalyze } from "./analyze"
+import { fakeAnalyze } from "./services/analyze"
 
 
 function App() {
